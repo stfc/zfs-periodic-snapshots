@@ -18,7 +18,7 @@
 */
 
   function human_filesize($bytes, $decimals = 1) {
-    $sz = 'BKMGTP';
+    $sz = 'BKMGTPZ';
     $factor = max(0, floor((strlen($bytes) - 1) / 3));
     return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
   }
