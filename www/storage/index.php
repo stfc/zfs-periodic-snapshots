@@ -62,7 +62,7 @@
 
     //Sort keys to ensure date ordering
     $snapshots = array_keys($stats['snapshots']);
-    sort($snapshots);
+    rsort($snapshots);
 
     foreach ($snapshots as $name) {
       $details = $stats['snapshots'][$name];
