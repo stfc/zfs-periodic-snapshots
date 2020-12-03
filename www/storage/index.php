@@ -38,24 +38,27 @@
   if ($stats) {
     $stats = json_decode($stats[0], true);
 
-
     echo "      <h2>Storage Pool</h2>\n";
+    foreach ($stats['pool'] as $name => $details) {
+      $size = $details['avail'] + $details['used'];
+      $perc_used = $details['perc'];
+      echo "      <div class='row'>\n";
 
-    $name = 'data';
-    $details = $stats['pool'][$name];
-    $poolsize = $details['size'];
-    $poolused = $details['used'];
-    $poolperc = $details['perc'];
-    echo "      <div class='row'>\n";
+      echo "      <p>";
+      echo "<span class='col-md-2'><span class='glyphicon glyphicon-hdd'></span> <b>$name</b></span>";
+      echo "<span class='col-md-2 text-danger'>Used ".human_filesize($details['used'])."</span>";
+      echo "<span class='col-md-2 text-muted'>Available ".human_filesize($details['avail'])."</span>";
+      echo "</p>\n";
 
-    echo "      <p>";
-    echo "<span class='col-md-2'><span class='glyphicon glyphicon-hdd'></span> <b>$name</b></span>";
-    echo "<span class='col-md-2 text-error'>Used ".human_filesize($details['used'])."</span>";
-    echo "<span class='col-md-2 text-success'>Free ".human_filesize($details['avail'])."</span>";
-    echo "</p>\n";
+      echo "      </div>\n";
+      echo "      <div class='progress' title='Capacity profile of filesystem &quot;$name&quot;'>";
+      echo "<div class='progress-bar progress-bar-danger' role='progressbar' style='width: $perc_used;'></div>";
+      echo "</div>\n";
 
-    echo "      </div>\n";
-    echo "      <div class='progress' title='Capacity profile of storage pool &quot;$name&quot;'><div class='progress-bar progress-bar-danger' role='progressbar' style='width: $poolperc;'></div></div>\n";
+    }
+
+
+
 
 
     echo "      <h2>Snapshots</h2>\n";
