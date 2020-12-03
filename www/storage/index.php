@@ -34,7 +34,7 @@
 <?php require('../breadcrumbs.inc.php'); ?>
 <?php
   $stats = false;
-  exec("sudo /usr/local/sbin/zfs-list-snapshots-json", $stats);
+  exec("/usr/sbin/zfs-list-snapshots-json", $stats);
   if ($stats) {
     $stats = json_decode($stats[0], true);
 
