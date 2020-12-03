@@ -57,8 +57,34 @@
 
     }
 
+    echo "      <h2>Filesystem</h2>\n";
 
+    $filesystems = array('data/mirrors');
+    sort($filesystems);
 
+    foreach ($filesystems as $name) {
+      $details = $stats['filesystems'][$name];
+      $name = explode('/', $name);
+      $name = array_pop($name);
+      $size = $details['avail'] + $details['used'];
+      $perc_exposed = (int)(($details['refer'] / $size) * 100);
+      $perc_used = (int)(($details['used'] / $size) * 100) - $perc_exposed;
+      echo "      <div class='row'>\n";
+
+      echo "      <p>";
+      echo "<span class='col-md-2'><span class='glyphicon glyphicon-folder-close'></span> <b>$name</b></span>";
+      echo "<span class='col-md-2 text-danger'>Used ".human_filesize($details['used'])."</span>";
+      echo "<span class='col-md-2 text-info'>Exposes ".human_filesize($details['refer'])."</span>";
+      echo "<span class='col-md-2 text-muted'>Available ".human_filesize($details['avail'])."</span>";
+      echo "</p>\n";
+
+      echo "      </div>\n";
+      echo "      <div class='progress' title='Capacity profile of filesystem &quot;$name&quot;'>";
+      echo "<div class='progress-bar progress-bar-danger' role='progressbar' style='width: $perc_used%;'></div>";
+      echo "<div class='progress-bar progress-bar' role='progressbar' style='width: $perc_exposed%;'></div>";
+      echo "</div>\n";
+
+    }
 
 
     echo "      <h2>Snapshots</h2>\n";
