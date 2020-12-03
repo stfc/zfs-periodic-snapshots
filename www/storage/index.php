@@ -96,7 +96,11 @@
     foreach ($snapshots as $name) {
       $details = $stats['snapshots'][$name];
       $name = str_replace("data/mirrors@", "", $name);
-      $eff = (int)(($details['used'] / $details['refer']) * 100);
+      $size = 2347070778245; //this shouldn't be hardcoded, but looking it up is too much work for now
+      $refer = $details['refer'];
+      $used = $details['used'];
+      $perc_exposed = (int)(($refer / $size) * 100);
+      $perc_used = (int)(($used / $size) * 100) - $perc_exposed;
       echo "      <div class='row'>\n";
 
       echo "      <p>";
@@ -106,7 +110,10 @@
       echo "</p>\n";
 
       echo "      </div>\n";
-      echo "      <div class='progress' title='Storage profile of snapshot &quot;$name&quot;'><div class='progress-bar progress-bar-danger' style='width: $eff%;'></div><div class='progress-bar' style='width: ".(100-$eff)."%;'></div></div>\n";
+      echo "      <div class='progress' title='Storage profile of snapshot &quot;$name&quot;'>";
+      echo "<div class='progress-bar progress-bar-danger' style='width: $perc_used%;'></div>";
+      echo "<div class='progress-bar' style='width: $perc_exposed%;'></div>";
+      echo "</div>\n";
     }
   }
 ?>
