@@ -28,6 +28,7 @@
     if ($i < sizeof($path) - 1) {
       echo "        <li><a href='$pp/'>$p</a></li>\n";
     } else {
+      $p = str_replace('.php', '', $p);
       echo "        <li class='active'>$p</li>\n";
     }
   }
