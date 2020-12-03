@@ -101,7 +101,7 @@
 
       echo "      <p>";
       echo "<span class='col-md-2'><span class='glyphicon glyphicon-camera'></span> <b><a href='/snapshot/$name/'>$name</a></b></span>";
-      echo "<span class='col-md-2 text-error'>Occupies ".human_filesize($details['used'])."</span>";
+      echo "<span class='col-md-2 text-danger'>Delta ".human_filesize($details['used'])."</span>";
       echo "<span class='col-md-2 text-info'>Exposes ".human_filesize($details['refer'])."</span>";
       echo "</p>\n";
 
