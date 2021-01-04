@@ -18,7 +18,7 @@
 date=$(date -I)
 
 if [[ $# -eq 1 ]]; then
-    zfs snapshot $1@$date
+    /usr/sbin/zfs snapshot $1@$date
 else
     echo "USAGE: zfs-create-daily-snapshot <filesystem>"
 fi
