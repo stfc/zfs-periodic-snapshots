@@ -44,15 +44,15 @@ stats = {
     'snapshots' : {},
 }
 
-pool = subprocess.Popen(['/sbin/zpool', 'list'], stdout=subprocess.PIPE).communicate()[0].splitlines()[1:]
+pool = subprocess.Popen(['/sbin/zpool', 'list', '-o', 'name,size,allocated,free,capacity'], stdout=subprocess.PIPE).communicate()[0].splitlines()[1:]
 snapshots = subprocess.Popen(['/sbin/zfs', 'list', '-t', 'snapshot'], stdout=subprocess.PIPE).communicate()[0].splitlines()[1:]
 
-name, size, alloc, free, cap, dedup, health, altroot = pool[0].split()
+name, size, allocated, free, capacity = pool[0].split()
 stats['pool'][name] = {}
 stats['pool'][name]['size'] = multiply(size)
-stats['pool'][name]['used'] = multiply(alloc)
+stats['pool'][name]['used'] = multiply(allocated)
 stats['pool'][name]['avail'] = multiply(free)
-stats['pool'][name]['perc'] = cap
+stats['pool'][name]['perc'] = capacity
 
 process(stats['snapshots'], snapshots)
 
