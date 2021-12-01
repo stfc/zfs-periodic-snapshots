@@ -51,4 +51,24 @@ $URI = $_SERVER['REQUEST_URI'];
     };
 ?>
       <div class="row">
+        <ul class="nav nav-tabs nav-justified">
+<?php
+
+    if (strpos($URI, '/snapshot/') === 0) {
+        foreach (['previous', 'current', 'next'] as $p) {
+            $c = '';
+            if (strpos($URI, "/snapshot/$p/") === 0) {
+                $c = 'active';
+            };
+            $s = explode('/', readlink('/data/pointers/'.$p))[5];
+            $ua = explode('/', $URI);
+            $ua[2] = $p;
+            $ut = implode('/', $ua);
+            echo "        <li role=\"presentation\" class=\"$c\"><a href=\"$ut\" title=\"$s\"><b>$p</b><br>$s</a></li>\n";
+        };
+    };
+?>
+        </ul>
+      </div>
+      <div class="row">
         <div class="well">
