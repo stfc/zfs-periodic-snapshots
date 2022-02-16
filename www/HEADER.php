@@ -17,6 +17,9 @@
 *  limitations under the License.
 *
 */
+
+$URI = $_SERVER['REQUEST_URI'];
+
 ?>
 <html lang="en">
   <head>
@@ -30,5 +33,42 @@
   </head>
   <body>
     <div class="container">
+      <div class="row">
 <?php require('breadcrumbs.inc.php'); ?>
-      <div class="well">
+      </div>
+<?php
+   if (strpos($URI, '/raw/') === 0) {
+?>
+      <div class="hero-unit">
+        <h1>Raw Mirrors</h1>
+        <div class="alert alert-danger" role="alert">
+        <h4><b>Very Danger!</b></h4>
+        <p>These are raw, unprocessed mirrors as taken from upstream and should not normally be used directly by clients.</p>
+        <p>There is no guarantee that these are even usable, or if they are now, that they will remain that way in future.</p>
+        </div>
+      </div>
+<?php
+    };
+?>
+      <div class="row">
+        <ul class="nav nav-tabs nav-justified">
+<?php
+
+    if (strpos($URI, '/snapshot/') === 0) {
+        foreach (['previous', 'current', 'next'] as $p) {
+            $c = '';
+            if (strpos($URI, "/snapshot/$p/") === 0) {
+                $c = 'active';
+            };
+            $s = explode('/', readlink('/data/pointers/'.$p))[5];
+            $ua = explode('/', $URI);
+            $ua[2] = $p;
+            $ut = implode('/', $ua);
+            echo "        <li role=\"presentation\" class=\"$c\"><a href=\"$ut\" title=\"$s\"><b>$p</b><br>$s</a></li>\n";
+        };
+    };
+?>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="well">
