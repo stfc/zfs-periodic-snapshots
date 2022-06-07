@@ -54,15 +54,17 @@ $URI = $_SERVER['REQUEST_URI'];
         <ul class="nav nav-tabs nav-justified">
 <?php
 
-    if (strpos($URI, '/snapshot/') === 0) {
+    if (strpos($URI, '/snapshot/') === 0 || strpos($URI, '/raw/snapshot/') === 0) {
+        $array_uri = explode('/', $URI);
+        $uri_snapshot_pos = array_search('snapshot', $array_uri) + 1;
         foreach (['previous', 'current', 'next'] as $p) {
             $c = '';
-            if (strpos($URI, "/snapshot/$p/") === 0) {
+            if (strpos($URI, "/snapshot/$p/") !== false) {
                 $c = 'active';
             };
             $s = explode('/', readlink('/data/pointers/'.$p))[5];
-            $ua = explode('/', $URI);
-            $ua[2] = $p;
+            $ua = $array_uri;
+            $ua[$uri_snapshot_pos] = $p;
             $ut = implode('/', $ua);
             echo "        <li role=\"presentation\" class=\"$c\"><a href=\"$ut\" title=\"$s\"><b>$p</b><br>$s</a></li>\n";
         };
