@@ -17,7 +17,7 @@ function prompt_to_update_link {
     link_name="$1"
     link_name_title_case="$(echo "$link_name" | sed 's/.*/\L&/; s/[a-z]*/\u&/g')"
     new_snapshot="$2"
-    new_target="/${new_snapshot//@//.zfs/snapshot/}/www"
+    new_target="/${new_snapshot//@//.zfs/snapshot/}"
     old_target="$(readlink "/data/pointers/$link_name")"
 
     if [[ "$new_target" != "$old_target" ]]; then
