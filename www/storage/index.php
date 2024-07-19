@@ -59,7 +59,7 @@
 
     echo "      <h2>Filesystem</h2>\n";
 
-    $filesystems = array('data/mirrors');
+    $filesystems = array_keys($stats['filesystems']);
     sort($filesystems);
 
     foreach ($filesystems as $name) {
@@ -95,8 +95,9 @@
 
     foreach ($snapshots as $name) {
       $details = $stats['snapshots'][$name];
-      $name = str_replace("data/mirrors@", "", $name);
-      $size = 2347070778245; //this shouldn't be hardcoded, but looking it up is too much work for now
+      $fs = explode('@', $name, 2)[0];
+      $snap = explode('@', $name, 2)[1];
+      $size = $stats['filesystems'][$fs]['avail'] + $stats['filesystems'][$fs]['used'];
       $refer = $details['refer'];
       $used = $details['used'];
       $perc_exposed = (int)(($refer / $size) * 100);
@@ -104,14 +105,14 @@
       echo "      <div class='row'>\n";
 
       echo "      <p>";
-      echo "<span class='col-md-2'><span class='glyphicon glyphicon-camera'></span> <b><a href='/snapshot/$name/'>$name</a></b></span>";
-      echo "<span class='col-md-2 text-danger'>Delta ".human_filesize($details['used'])."</span>";
+      echo "<span class='col-md-2'><span class='glyphicon glyphicon-camera'></span> <b><a href='/snapshot/$snap/'>$snap</a></b></span>";
+      echo "<span class='col-md-2 text-warning'>Delta ".human_filesize($details['used'])."</span>";
       echo "<span class='col-md-2 text-info'>Exposes ".human_filesize($details['refer'])."</span>";
       echo "</p>\n";
 
       echo "      </div>\n";
-      echo "      <div class='progress' title='Storage profile of snapshot &quot;$name&quot;'>";
-      echo "<div class='progress-bar progress-bar-danger' style='width: $perc_used%;'></div>";
+      echo "      <div class='progress' title='Storage profile of snapshot &quot;$snap&quot;'>";
+      echo "<div class='progress-bar progress-bar-warning' style='width: $perc_used%;'></div>";
       echo "<div class='progress-bar' style='width: $perc_exposed%;'></div>";
       echo "</div>\n";
     }
