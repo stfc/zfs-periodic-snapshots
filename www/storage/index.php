@@ -80,8 +80,8 @@
 
       echo "      </div>\n";
       echo "      <div class='progress' title='Capacity profile of filesystem &quot;$name&quot;'>";
-      echo "<div class='progress-bar progress-bar-danger' role='progressbar' style='width: $perc_used%;'></div>";
       echo "<div class='progress-bar progress-bar' role='progressbar' style='width: $perc_exposed%;'></div>";
+      echo "<div class='progress-bar progress-bar-danger' role='progressbar' style='width: $perc_used%;'></div>";
       echo "</div>\n";
 
     }
@@ -100,8 +100,8 @@
       $size = $stats['filesystems'][$fs]['avail'] + $stats['filesystems'][$fs]['used'];
       $refer = $details['refer'];
       $used = $details['used'];
-      $perc_exposed = (int)(($refer / $size) * 100);
-      $perc_used = (int)(($used / $size) * 100) - $perc_exposed;
+      $perc_used = (int)(($used / $size) * 100);
+      $perc_exposed = (int)(($refer / $size) * 100) - $perc_used;
       echo "      <div class='row'>\n";
 
       echo "      <p>";
