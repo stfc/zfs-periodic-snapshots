@@ -80,8 +80,8 @@
 
       echo "      </div>\n";
       echo "      <div class='progress' title='Capacity profile of filesystem &quot;$name&quot;'>";
-      echo "<div class='progress-bar progress-bar-danger' role='progressbar' style='width: $perc_used%;'></div>";
       echo "<div class='progress-bar progress-bar' role='progressbar' style='width: $perc_exposed%;'></div>";
+      echo "<div class='progress-bar progress-bar-danger' role='progressbar' style='width: $perc_used%;'></div>";
       echo "</div>\n";
 
     }
@@ -99,8 +99,8 @@
       $size = 2347070778245; //this shouldn't be hardcoded, but looking it up is too much work for now
       $refer = $details['refer'];
       $used = $details['used'];
-      $perc_exposed = (int)(($refer / $size) * 100);
-      $perc_used = (int)(($used / $size) * 100) - $perc_exposed;
+      $perc_used = (int)(($used / $size) * 100);
+      $perc_exposed = (int)(($refer / $size) * 100) - $perc_used;
       echo "      <div class='row'>\n";
 
       echo "      <p>";
